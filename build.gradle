@@ -29,4 +29,28 @@ dependencies {
 
 test {
   useJUnitPlatform()
+  testLogging {
+    // set options for log level LIFECYCLE
+    events "failed"
+    exceptionFormat "short"
+
+    // set options for log level DEBUG
+    debug {
+      events "started", "skipped", "failed"
+      exceptionFormat "full"
+    }
+
+    // remove standard output/error logging from --info builds
+    // by assigning only 'failed' and 'skipped' events
+    info.events = ["failed", "skipped"]
+  }
+  afterSuite { desc, result ->
+    if (!desc.parent) {
+      println "\nTest result: ${result.resultType}"
+      println "Test summary: ${result.testCount} tests, " +
+          "${result.successfulTestCount} succeeded, " +
+          "${result.failedTestCount} failed, " +
+          "${result.skippedTestCount} skipped"
+    }
+  }
 }
