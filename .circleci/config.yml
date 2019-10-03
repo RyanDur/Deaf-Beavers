@@ -6,6 +6,9 @@ version: 2.1
 executorType: machine
 jobs:
   build:
+    machine:
+      image: ubuntu-1604:201903-01
+      docker_layer_caching: true
     working_directory: ~/repo
     parallelism: 2
     environment:
