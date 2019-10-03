@@ -1,7 +1,8 @@
-name: continuous integrate
-on: push
-  branches:
-    - master
+name: pipeline
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
