@@ -29,7 +29,7 @@ jobs:
           # Use "gradle test" instead if tests are not run in parallel
           command: |
             cd src/test/java
-
+            
             CLASSNAMES=$(circleci tests glob "**/*.java" \
               | cut -c 1- | sed 's@/@.@g' \
               | sed 's/.\{5\}$//' \
@@ -38,7 +38,7 @@ jobs:
 
             GRADLE_ARGS=$(echo $CLASSNAMES | awk '{for (i=1; i<=NF; i++) print "--tests",$i}')
             echo "Prepared arguments for Gradle: $GRADLE_ARGS"
-            ./gradlew test $GRADLE_ARGS
+            gradle test $GRADLE_ARGS
 
       - save_cache:
           paths:
@@ -59,7 +59,7 @@ jobs:
           command: |
             # Skip this for other nodes
             if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
-            ./gradlew assemble
+            gradle assemble
             fi
             # As the JAR was only assembled in the first build container, build/libs will be empty in all the other build containers.
       - store_artifacts:
