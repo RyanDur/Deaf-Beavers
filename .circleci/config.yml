@@ -2,10 +2,8 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2.1
+version: 2
 executorType: machine
-orbs:
-  gradle: bizzabo/gradle@2.3.0
 jobs:
   build:
     docker:
@@ -26,10 +24,9 @@ jobs:
 
       - run:
           name: Run tests in parallel # See: https://circleci.com/docs/2.0/parallelism-faster-jobs/
-          # Use "gradle test" instead if tests are not run in parallel
           command: |
             cd src/test/java
-            
+
             CLASSNAMES=$(circleci tests glob "**/*.java" \
               | cut -c 1- | sed 's@/@.@g' \
               | sed 's/.\{5\}$//' \
