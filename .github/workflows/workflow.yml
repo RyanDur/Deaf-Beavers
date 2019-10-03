@@ -18,4 +18,5 @@ jobs:
         with:
           fetch-depth: 1
 
-      - run: ./gradlew clean test
+      - name: test
+        run: ./gradlew check build
