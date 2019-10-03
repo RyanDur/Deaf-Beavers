@@ -6,10 +6,12 @@ on:
 
 jobs:
   build:
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '1.8'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '1.8'
 
-    - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
