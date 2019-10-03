@@ -28,7 +28,7 @@ jobs:
             docker -v
       - run:
           name: Run tests
-          command: ./gradlew clean check --no-daemon --stacktrace
+          command: gradle clean check --no-daemon --stacktrace
 
 
 
