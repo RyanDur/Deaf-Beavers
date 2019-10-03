@@ -12,6 +12,8 @@ jobs:
       - image: circleci/openjdk:11.0.3-jdk-stretch
     working_directory: ~/repo
     parallelism: 2
+    machine:
+      docker_layer_caching: true
     environment:
       _JAVA_OPTIONS: "-Xmx3g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
