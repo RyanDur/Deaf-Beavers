@@ -42,10 +42,10 @@ jobs:
           paths:
             - ~/.gradle/wrapper
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-            - save_cache:
-                paths:
-                  - ~/.gradle/caches
-                key: v1-gradle-cache-{{ checksum "build.gradle" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
 
       - store_test_results:
           path: build/test-results/test
