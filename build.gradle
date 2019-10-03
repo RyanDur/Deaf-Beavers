@@ -53,8 +53,4 @@ test {
           "${result.skippedTestCount} skipped"
     }
   }
-
-  task wrapper(type: Wrapper) {
-    gradleVersion = '4.1'
-  }
 }
