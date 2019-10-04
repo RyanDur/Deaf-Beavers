@@ -19,9 +19,10 @@ jobs:
           fetch-depth: 1
 
       - name: test
-        run: ./gradlew check build --no-daemon
+        run: ./gradlew check --no-daemon
 
       - name: push to cf
+        run: ./gradlew build
         uses: "louisthomas/cloud-foundry-cli-action@master"
         env:
           CF_API_ENDPOINT: api.run.pivotal.io
