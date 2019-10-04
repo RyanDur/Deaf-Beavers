@@ -1,0 +1,12 @@
+action "Deploy to PWS" {
+  uses = "louisthomas/cloud-foundry-cli-action@master"
+  secrets = ["PASSWORD"]
+  env = {
+    CF_API_ENDPOINT = "api.run.pivotal.io"
+    ORG = "pivotallabs"
+    SPACE = "health-office"
+    USERNAME = "rdurling@pivotal.io"
+    APP_NAME = "Deaf_Beavers"
+    ARTIFACT_PATH = "./build/libs/Deaf_Beavers-1.0-SNAPSHOT.jar"
+  }
+}

@@ -20,3 +20,6 @@ jobs:
 
       - name: test
         run: ./gradlew check build --quiet
+
+      - name: push to cf
+        uses: ./.github/actions/push-to-cloud-foundry
