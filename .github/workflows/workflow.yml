@@ -19,4 +19,4 @@ jobs:
           fetch-depth: 1
 
       - name: test
-        run: ./gradlew check build
+        run: ./gradlew check build --quiet
