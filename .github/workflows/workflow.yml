@@ -21,6 +21,8 @@ jobs:
       - name: test
         run: ./gradlew check build
 
+      - run: pwd
+
       - name: push to cf
         uses: "louisthomas/cloud-foundry-cli-action@master"
         env:
