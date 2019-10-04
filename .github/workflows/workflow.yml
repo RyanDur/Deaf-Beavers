@@ -31,4 +31,5 @@ jobs:
           SPACE: health-office
           USERNAME: rdurling@pivotal.io
           APP_NAME: Deaf_Beavers
+          ARTIFACT_PATH: ..
           PASSWORD: ${{ secrets.CF_PASSWORD }}
