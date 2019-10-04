@@ -23,7 +23,7 @@ jobs:
 
       - name: push to cf
         uses: "louisthomas/cloud-foundry-cli-action@master"
-        secrets: [${{ secrets.CF_PASSWORD }}]
+        secrets: ${{ secrets.CF_PASSWORD }}
         env:
           CF_API_ENDPOINT: api.run.pivotal.io
           ORG: pivotallabs
