@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 1
 
       - name: test
-        run: ./gradlew build
+        run: ./gradlew build 
 
       - run: pwd
 
