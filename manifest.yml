@@ -1,4 +1,4 @@
 ---
 applications:
   - name: Deaf_Beavers
-    path: ./build/libs/
+    path: ./build/libs/Deaf_Beavers-1.0-SNAPSHOT.jar
