@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    build_&_Deploy:
+    buildDeploy:
       steps:
         - name: setup java 8
           uses: actions/setup-java@v1
