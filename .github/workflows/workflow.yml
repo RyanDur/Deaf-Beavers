@@ -1,4 +1,4 @@
-name: pipeline
+name: Deaf Beavers pipeline
 on:
   push:
     branches:
@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 1
 
       - name: test
-        run: ./gradlew build 
+        run: ./gradlew build
 
       - run: pwd
 
