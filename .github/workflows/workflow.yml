@@ -21,8 +21,6 @@ jobs:
       - name: test
         run: ./gradlew build
 
-      - run: pwd
-
       - name: push to cf
         uses: "louisthomas/cloud-foundry-cli-action@master"
         env:
@@ -31,5 +29,5 @@ jobs:
           SPACE: health-office
           USERNAME: rdurling@pivotal.io
           APP_NAME: Deaf_Beavers
-          ARTIFACT_PATH: build/libs/Deaf_Beavers-1.0-SNAPSHOT.jar
+          ARTIFACT_PATH: .
           PASSWORD: ${{ secrets.CF_PASSWORD }}
