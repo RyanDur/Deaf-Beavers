@@ -1,8 +1,7 @@
 plugins {
   id 'java'
-  id 'org.flywaydb.flyway' version '6.0.4'
   id 'application'
-  id "org.springframework.boot" version "2.1.8.RELEASE"
+  id "org.springframework.boot" version "2.1.9.RELEASE"
 }
 
 version '1.0-SNAPSHOT'
@@ -22,13 +21,12 @@ springBoot {
 }
 
 dependencies {
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.8.RELEASE'
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.1.8.RELEASE'
-  compile group: 'org.flywaydb', name: 'flyway-core', version: '6.0.4'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.9.RELEASE'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.1.9.RELEASE'
+  compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
+  compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.17'
 
-  runtime group: 'mysql', name: 'mysql-connector-java', version: '8.0.17'
-
-  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.8.RELEASE'
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.9.RELEASE'
   testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.0.0'
   testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: '1.12.2'
   testCompile group: 'org.testcontainers', name: 'mysql', version: '1.12.2'
