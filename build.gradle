@@ -1,6 +1,7 @@
 plugins {
   id 'java'
-  id "org.flywaydb.flyway" version "6.0.4"
+  id 'org.flywaydb.flyway' version '6.0.4'
+  id 'application'
 }
 
 version '1.0-SNAPSHOT'
@@ -8,7 +9,11 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-  jcenter { url "http://jcenter.bintray.com/" }
+  jcenter { url 'http://jcenter.bintray.com/' }
+}
+
+application {
+  mainClassName = 'com.collab.Main'
 }
 
 dependencies {
@@ -30,17 +35,17 @@ dependencies {
 test {
   useJUnitPlatform()
   testLogging {
-    events "failed"
-    exceptionFormat "short"
-    info.events = ["failed", "skipped"]
+    events 'failed'
+    exceptionFormat 'short'
+    info.events = ['failed', 'skipped']
   }
   afterSuite { desc, result ->
     if (!desc.parent) {
-      println "\nTest result: ${result.resultType}"
-      println "Test summary: ${result.testCount} tests, " +
-          "${result.successfulTestCount} succeeded, " +
-          "${result.failedTestCount} failed, " +
-          "${result.skippedTestCount} skipped"
+      println '\nTest result: ${result.resultType}'
+      println 'Test summary: ${result.testCount} tests, ' +
+          '${result.successfulTestCount} succeeded, ' +
+          '${result.failedTestCount} failed, ' +
+          '${result.skippedTestCount} skipped'
     }
   }
 }

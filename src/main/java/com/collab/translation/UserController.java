@@ -21,7 +21,10 @@ public class UserController {
         this.service = service;
     }
 
-    @PostMapping("/users")
+    @PostMapping(
+            path = "/users",
+            consumes = "application/json",
+            produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public CurrentUserResource save(@RequestBody NewUserInput newUser) {
         return toResource(service.save(toDomain(newUser)));
