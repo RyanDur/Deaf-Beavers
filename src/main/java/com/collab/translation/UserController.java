@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static com.collab.translation.Converter.toDomain;
 import static com.collab.translation.Converter.toResource;
 
@@ -22,11 +24,12 @@ public class UserController {
     }
 
     @PostMapping(
+            name = "save",
             path = "/users",
             consumes = "application/json",
             produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public CurrentUserResource save(@RequestBody NewUserInput newUser) {
+    public CurrentUserResource save(@Valid @RequestBody NewUserInput newUser) {
         return toResource(service.save(toDomain(newUser)));
     }
 }

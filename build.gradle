@@ -25,6 +25,7 @@ dependencies {
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.1.9.RELEASE'
   compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
   compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.17'
+  compile group: 'io.vavr', name: 'vavr', version: '0.9.3'
 
   compile group: 'org.springframework.cloud', name: 'spring-cloud-spring-service-connector', version: '2.0.6.RELEASE'
   compile group: 'org.springframework.cloud', name: 'spring-cloud-cloudfoundry-connector', version: '2.0.6.RELEASE'

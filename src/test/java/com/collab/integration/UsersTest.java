@@ -35,7 +35,8 @@ class UsersTest {
     private TestRestTemplate restTemplate;
 
     @Container
-    private static MySQLContainer container = new MySQLContainer().withDatabaseName("user");
+    private static MySQLContainer container = new MySQLContainer()
+            .withDatabaseName("user");
 
     @Test
     void shouldCreateAUser() {

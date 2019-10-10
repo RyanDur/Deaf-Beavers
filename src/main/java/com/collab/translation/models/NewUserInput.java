@@ -7,6 +7,8 @@ import java.util.Objects;
 
 @JsonDeserialize(builder = NewUserInput.Builder.class)
 public class NewUserInput {
+
+    @MaxSizeUserName
     private String name;
 
     private NewUserInput(Builder builder) {
@@ -48,3 +50,4 @@ public class NewUserInput {
         }
     }
 }
+
