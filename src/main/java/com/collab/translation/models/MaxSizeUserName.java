@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = UserNameSizeValidator.class)
 @Documented
 public @interface MaxSizeUserName {
-    String message() default "{}";
+    String message() default "NAME_EXCEEDS_MAX_SIZE";
 
     Class<?>[] groups() default { };
 

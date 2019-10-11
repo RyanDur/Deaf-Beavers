@@ -1,14 +1,30 @@
+buildscript {
+  ext {
+    springBootVersion = "2.1.9.RELEASE"
+  }
+
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: "$springBootVersion"
+  }
+}
+
 plugins {
   id 'java'
   id 'application'
-  id "org.springframework.boot" version "2.1.9.RELEASE"
 }
+
+apply plugin: 'org.springframework.boot'
 
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
+  mavenCentral()
   jcenter { url 'http://jcenter.bintray.com/' }
 }
 
@@ -21,8 +37,8 @@ springBoot {
 }
 
 dependencies {
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.9.RELEASE'
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.1.9.RELEASE'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "$springBootVersion"
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "$springBootVersion"
   compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
   compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.17'
   compile group: 'io.vavr', name: 'vavr', version: '0.9.3'
@@ -30,7 +46,7 @@ dependencies {
   compile group: 'org.springframework.cloud', name: 'spring-cloud-spring-service-connector', version: '2.0.6.RELEASE'
   compile group: 'org.springframework.cloud', name: 'spring-cloud-cloudfoundry-connector', version: '2.0.6.RELEASE'
 
-  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.9.RELEASE'
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "$springBootVersion"
   testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.0.0'
   testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: '1.12.2'
   testCompile group: 'org.testcontainers', name: 'mysql', version: '1.12.2'
