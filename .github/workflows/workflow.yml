@@ -20,17 +20,3 @@ jobs:
 
       - name: test
         run: ./gradlew test
-
-      - name: build
-        run: ./gradlew bootJar
-
-      - name: push to cf
-        uses: "louisthomas/cloud-foundry-cli-action@master"
-        env:
-          CF_API_ENDPOINT: api.run.pcfone.io
-          ORG: pivot-rdurling
-          SPACE: playground
-          USERNAME: rdurling@pivotal.io
-          APP_NAME: Deaf_Beavers
-          ARTIFACT_PATH: .
-          PASSWORD: ${{ secrets.CF_PASSWORD }}
