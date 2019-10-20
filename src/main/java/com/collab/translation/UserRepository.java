@@ -4,6 +4,7 @@ import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
 import com.collab.translation.models.UserEntity;
 import com.collab.translation.models.Validation;
+import com.collab.translation.models.Validations;
 import io.vavr.control.Either;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -19,9 +20,9 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
     UserEntity getByName(String name);
 
-    default Either<Validation, CurrentUser> save(NewUser newUser) {
+    default Either<Validations, CurrentUser> save(NewUser newUser) {
         return isNull(getByName(newUser.getName())) ?
                 right(toDomain(save(toEntity(newUser)))) :
-                left(Validation.of(newUser.getName(), "USERNAME_EXISTS"));
+                left(Validations.of(Validation.of(newUser.getName(), "USERNAME_EXISTS")));
     }
 }

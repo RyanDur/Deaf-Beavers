@@ -3,7 +3,7 @@ package com.collab.domain;
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
 import com.collab.translation.UserRepository;
-import com.collab.translation.models.Validation;
+import com.collab.translation.models.Validations;
 import io.vavr.control.Either;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ class UserServiceTest {
         CurrentUser expected = new CurrentUser("face", name);
         when(repository.save(newUser)).thenReturn(right(expected));
 
-        Either<Validation, CurrentUser> actual = service.save(newUser);
+        Either<Validations, CurrentUser> actual = service.save(newUser);
 
         assertThat(actual.get()).isEqualTo(expected);
     }

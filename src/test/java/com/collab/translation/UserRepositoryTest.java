@@ -3,6 +3,7 @@ package com.collab.translation;
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
 import com.collab.translation.models.Validation;
+import com.collab.translation.models.Validations;
 import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ class UserRepositoryTest {
 
     private String name;
     private NewUser newUser;
-    private Either<Validation, CurrentUser> savedUser;
+    private Either<Validations, CurrentUser> savedUser;
 
     @BeforeEach
     void setUp() {
@@ -54,8 +55,8 @@ class UserRepositoryTest {
 
     @Test
     public void shouldNotSaveANameThatAlreadyExists() {
-        Either<Validation, CurrentUser> actual = repository.save(newUser);
-        Validation expected = Validation.of(newUser.getName(), "USERNAME_EXISTS");
+        Either<Validations, CurrentUser> actual = repository.save(newUser);
+        Validations expected = Validations.of(Validation.of(newUser.getName(), "USERNAME_EXISTS"));
         assertThat(actual.left().get()).isEqualTo(expected);
     }
 
