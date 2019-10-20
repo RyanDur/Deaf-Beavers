@@ -23,6 +23,8 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
     default Either<Validations, CurrentUser> save(NewUser newUser) {
         return isNull(getByName(newUser.getName())) ?
                 right(toDomain(save(toEntity(newUser)))) :
-                left(Validations.of(Validation.of(newUser.getName(), "USERNAME_EXISTS")));
+                left(Validations.builder()
+                        .username(Validation.of(newUser.getName(), "USERNAME_EXISTS"))
+                        .build());
     }
 }

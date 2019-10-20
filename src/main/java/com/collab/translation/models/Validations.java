@@ -10,8 +10,16 @@ public class Validations {
         this.username = validation;
     }
 
+    private Validations(Builder builder) {
+        username = builder.username;
+    }
+
     public static Validations of(Validation validation) {
         return new Validations(validation);
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public Validation getUsername() {
@@ -36,5 +44,21 @@ public class Validations {
         return "Validations{" +
                 "username=" + username +
                 '}';
+    }
+
+    public static final class Builder {
+        private Validation username;
+
+        private Builder() {
+        }
+
+        public Builder username(Validation val) {
+            username = val;
+            return this;
+        }
+
+        public Validations build() {
+            return new Validations(this);
+        }
     }
 }
