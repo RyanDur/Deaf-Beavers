@@ -2,56 +2,71 @@ package com.collab.translation;
 
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
-import com.collab.translation.models.UserEntity;
+import com.collab.translation.models.Validation;
+import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@Testcontainers
+@DataJpaTest
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
+@ContextConfiguration(initializers = {UserRepositoryTest.Initializer.class})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserRepositoryTest {
 
-    @Mock
-    private JPAUserRepository jpaUserRepository;
-
-    @InjectMocks
+    @Autowired
     private UserRepository repository;
 
+    @Container
+    private static MySQLContainer container = new MySQLContainer()
+            .withDatabaseName("user");
+
     private String name;
-    private String id;
     private NewUser newUser;
+    private Either<Validation, CurrentUser> savedUser;
 
     @BeforeEach
     void setUp() {
         name = "Face";
-        id = "your";
         newUser = new NewUser(name);
-        UserEntity userEntity = new UserEntity(id, name);
-        when(jpaUserRepository.save(any(UserEntity.class))).thenReturn(userEntity);
+        savedUser = repository.save(newUser);
     }
 
     @Test
     void shouldSaveAUser() {
-        CurrentUser expected = new CurrentUser(id, name);
-        CurrentUser actual = repository.save(newUser);
-
-        assertThat(actual).isEqualTo(expected);
+        assertThat(savedUser.get().getName()).isEqualTo(name);
+        assertThat(savedUser.get().getId()).isNotEmpty();
     }
 
     @Test
-    void shouldGenerateAnId() {
-        ArgumentCaptor<UserEntity> captor = ArgumentCaptor.forClass(UserEntity.class);
-        repository.save(newUser);
-        verify(jpaUserRepository).save(captor.capture());
+    public void shouldNotSaveANameThatAlreadyExists() {
+        Either<Validation, CurrentUser> actual = repository.save(newUser);
+        Validation expected = Validation.of(newUser.getName(), "USERNAME_EXISTS");
+        assertThat(actual.left().get()).isEqualTo(expected);
+    }
 
-        assertThat(captor.getValue().getId()).isNotEmpty();
+    static class Initializer
+            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + container.getJdbcUrl(),
+                    "spring.datasource.username=" + container.getUsername(),
+                    "spring.datasource.password=" + container.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
     }
 }

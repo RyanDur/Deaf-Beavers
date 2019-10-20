@@ -2,21 +2,26 @@ package com.collab.translation;
 
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
+import com.collab.translation.models.UserEntity;
+import com.collab.translation.models.Validation;
+import io.vavr.control.Either;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import static com.collab.translation.Converter.toDomain;
 import static com.collab.translation.Converter.toEntity;
+import static io.vavr.control.Either.left;
+import static io.vavr.control.Either.right;
+import static java.util.Objects.isNull;
 
 @Repository
-public class UserRepository {
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
-    private final JPAUserRepository repository;
+    UserEntity getByName(String name);
 
-    public UserRepository(JPAUserRepository repository) {
-        this.repository = repository;
-    }
-
-    public CurrentUser save(NewUser newUser) {
-        return toDomain(repository.save(toEntity(newUser)));
+    default Either<Validation, CurrentUser> save(NewUser newUser) {
+        return isNull(getByName(newUser.getName())) ?
+                right(toDomain(save(toEntity(newUser)))) :
+                left(Validation.of(newUser.getName(), "USERNAME_EXISTS"));
     }
 }

@@ -3,14 +3,17 @@ package com.collab.domain;
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
 import com.collab.translation.UserRepository;
+import com.collab.translation.models.Validation;
+import io.vavr.control.Either;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static io.vavr.control.Either.right;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -26,10 +29,10 @@ class UserServiceTest {
         String name = "Ryan";
         NewUser newUser = new NewUser(name);
         CurrentUser expected = new CurrentUser("face", name);
-        Mockito.when(repository.save(newUser)).thenReturn(expected);
+        when(repository.save(newUser)).thenReturn(right(expected));
 
-        CurrentUser actual = service.save(newUser);
+        Either<Validation, CurrentUser> actual = service.save(newUser);
 
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual.get()).isEqualTo(expected);
     }
 }
