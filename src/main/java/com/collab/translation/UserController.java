@@ -30,17 +30,14 @@ public class UserController {
     }
 
     @PostMapping(
-            name = "save",
             path = "/users",
             consumes = "application/json",
             produces = "application/json")
     public ResponseEntity<?> save(@Valid @RequestBody NewUserInput newUser) {
-        return Match(service.save(toDomain(newUser)))
-                .of(
-                        Case($Right($()), currentUser -> created(create("/users/" + currentUser.getId()))
-                                .body(toResource(currentUser))),
-                        Case($Left($()), validation -> badRequest()
-                                .body(validation))
-                );
+        return Match(service.save(toDomain(newUser))).of(
+                Case($Right($()), currentUser -> created(create("/users/" + currentUser.getId()))
+                        .body(toResource(currentUser))),
+                Case($Left($()), validation -> badRequest()
+                        .body(validation)));
     }
 }
