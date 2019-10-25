@@ -2,7 +2,6 @@ package com.collab.translation;
 
 import com.collab.domain.UserService;
 import com.collab.translation.models.NewUserInput;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +16,9 @@ import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Patterns.$Left;
 import static io.vavr.Patterns.$Right;
+import static java.net.URI.create;
 import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.created;
 
 @RestController
 public class UserController {
@@ -36,8 +37,10 @@ public class UserController {
     public ResponseEntity<?> save(@Valid @RequestBody NewUserInput newUser) {
         return Match(service.save(toDomain(newUser)))
                 .of(
-                        Case($Right($()), currentUser -> new ResponseEntity<>(toResource(currentUser), HttpStatus.CREATED)),
-                        Case($Left($()), validation -> badRequest().body(validation))
+                        Case($Right($()), currentUser -> created(create("/users/" + currentUser.getId()))
+                                .body(toResource(currentUser))),
+                        Case($Left($()), validation -> badRequest()
+                                .body(validation))
                 );
     }
 }
