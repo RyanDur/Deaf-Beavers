@@ -20,6 +20,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static com.jayway.jsonpath.JsonPath.read;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
@@ -49,6 +50,8 @@ class UsersTest {
 
         assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         String name = read(actual.getBody(), "$.name");
+        String id = read(actual.getBody(), "$.id");
+        assertThat(actual.getHeaders().get("Location")).isEqualTo(singletonList("/users/" + id));
         assertThat(name).isEqualTo(expected.getName());
     }
 
