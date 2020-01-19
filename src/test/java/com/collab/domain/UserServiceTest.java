@@ -2,6 +2,7 @@ package com.collab.domain;
 
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
+import com.collab.domain.models.UserStatus;
 import com.collab.translation.UserRepository;
 import com.collab.translation.models.Validations;
 import io.vavr.control.Either;
@@ -28,7 +29,7 @@ class UserServiceTest {
     void shouldTakeTheNewUserAndSaveIt() {
         String name = "Ryan";
         NewUser newUser = new NewUser(name);
-        CurrentUser expected = new CurrentUser("face", name);
+        CurrentUser expected = new CurrentUser("face", name, UserStatus.AVAILABLE);
         when(repository.save(newUser)).thenReturn(right(expected));
 
         Either<Validations, CurrentUser> actual = service.save(newUser);

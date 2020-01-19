@@ -1,5 +1,6 @@
 package com.collab.integration;
 
+import com.collab.domain.models.UserStatus;
 import com.collab.translation.models.CurrentUserResource;
 import com.collab.translation.models.NewUserInput;
 import io.vavr.Tuple2;
@@ -51,7 +52,7 @@ class UsersTest {
     private Flyway flyway;
 
     @Container
-    private static MySQLContainer container = new MySQLContainer()
+    private static MySQLContainer container = new MySQLContainer<>()
             .withDatabaseName("user");
 
     private String userName = "Ryan";
@@ -68,12 +69,15 @@ class UsersTest {
 
     @Test
     void shouldCreateAUser() {
-        CurrentUserResource expected = new CurrentUserResource("some id", userName);
+        CurrentUserResource expected = new CurrentUserResource("some id", userName, UserStatus.AVAILABLE);
 
         assertThat(currentUserResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        String name = read(currentUserResponse.getBody(), "$.name");
         assertThat(currentUserResponse.getHeaders().get("Location")).isEqualTo(singletonList("/users/" + currentUser));
+        String name = read(currentUserResponse.getBody(), "$.name");
+        String status = read(currentUserResponse.getBody(), "$.status");
+
         assertThat(name).isEqualTo(expected.getName());
+        assertThat(status).isEqualTo(expected.getStatus().name());
     }
 
     @Test

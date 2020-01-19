@@ -3,6 +3,7 @@ package com.collab.translation;
 import com.collab.domain.UserService;
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
+import com.collab.domain.models.UserStatus;
 import com.collab.translation.models.NewUserInput;
 import com.collab.translation.models.Validation;
 import com.collab.translation.models.Validations;
@@ -50,7 +51,7 @@ class UserControllerTest {
     void shouldNotAllowANameLongerThanAllowed() throws Exception {
         String tooLongOfAName = String.join("", Collections.nCopies(maxNameLength + 1, "x"));
         NewUserInput newUser = NewUserInput.builder().name(tooLongOfAName).build();
-        CurrentUser currentUser = new CurrentUser("some id", tooLongOfAName);
+        CurrentUser currentUser = new CurrentUser("some id", tooLongOfAName, UserStatus.AVAILABLE);
         when(service.save(any(NewUser.class))).thenReturn(right(currentUser));
 
         mockMvc.perform(post("/users")

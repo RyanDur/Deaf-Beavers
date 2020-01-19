@@ -2,6 +2,7 @@ package com.collab.domain;
 
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
+import com.collab.domain.models.OtherUser;
 import com.collab.translation.UserRepository;
 import com.collab.translation.models.Validations;
 import io.vavr.control.Either;

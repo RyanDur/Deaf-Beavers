@@ -1,6 +1,6 @@
 package com.collab.translation;
 
-import com.collab.domain.OtherUser;
+import com.collab.domain.models.OtherUser;
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
 import com.collab.translation.models.Validation;
