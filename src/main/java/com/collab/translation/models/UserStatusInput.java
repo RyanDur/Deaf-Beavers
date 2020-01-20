@@ -11,10 +11,6 @@ public class UserStatusInput {
 
     private Status status;
 
-    public UserStatusInput(Status status) {
-        this.status = status;
-    }
-
     private UserStatusInput(Builder builder) {
         status = builder.status;
     }

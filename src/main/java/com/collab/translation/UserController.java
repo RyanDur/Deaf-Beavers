@@ -43,7 +43,7 @@ public class UserController {
                 .map(Converter::toOtherUserResource));
     }
 
-    @RequestMapping(path = "/users/{userId}", method = RequestMethod.PATCH)
+    @PatchMapping(path = "/users/{userId}", produces = "application/json")
     public ResponseEntity<?> update(@PathVariable String userId, @RequestBody UserStatusInput statusInput) {
         service.update(userId, toUserStatus(statusInput));
         return ResponseEntity.noContent().build();
