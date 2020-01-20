@@ -6,9 +6,9 @@ public class OtherUser {
 
     private final String id;
     private final String name;
-    private UserStatus status;
+    private Status status;
 
-    public OtherUser(String id, String name, UserStatus status) {
+    public OtherUser(String id, String name, Status status) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -22,7 +22,7 @@ public class OtherUser {
         return name;
     }
 
-    public UserStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

@@ -1,15 +1,36 @@
 package com.collab.domain.models;
 
-public enum UserStatus {
-    AVAILABLE("AVAILABLE"), LOGGED_OUT("LOGGED_OUT");
+import java.util.Objects;
 
-    private String status;
+public class UserStatus {
 
-    UserStatus(String status) {
+    private Status status;
+
+    public UserStatus(Status status) {
         this.status = status;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserStatus that = (UserStatus) o;
+        return status == that.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(status);
+    }
+
+    @Override
+    public String toString() {
+        return "UserStatus{" +
+                "status=" + status +
+                '}';
     }
 }

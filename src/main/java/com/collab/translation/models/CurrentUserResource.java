@@ -1,6 +1,6 @@
 package com.collab.translation.models;
 
-import com.collab.domain.models.UserStatus;
+import com.collab.domain.models.Status;
 
 import java.util.Objects;
 
@@ -9,9 +9,9 @@ public class CurrentUserResource {
     private String id;
 
     private String name;
-    private UserStatus status;
+    private Status status;
 
-    public CurrentUserResource(String id, String name, UserStatus status) {
+    public CurrentUserResource(String id, String name, Status status) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -25,7 +25,7 @@ public class CurrentUserResource {
         return id;
     }
 
-    public UserStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

@@ -3,6 +3,7 @@ package com.collab.domain;
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
 import com.collab.domain.models.OtherUser;
+import com.collab.domain.models.UserStatus;
 import com.collab.translation.UserRepository;
 import com.collab.translation.models.Validations;
 import io.vavr.control.Either;
@@ -26,5 +27,9 @@ public class UserService {
 
     public Page<OtherUser> getAll(String exclude, Pageable pageable) {
         return repository.getAll(exclude, pageable);
+    }
+
+    public void update(String userId, UserStatus userStatus) {
+        repository.updateUsersStatus(userId, userStatus.getStatus().name());
     }
 }

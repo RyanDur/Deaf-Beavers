@@ -1,7 +1,5 @@
 package com.collab.translation.models;
 
-import com.collab.domain.models.UserStatus;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

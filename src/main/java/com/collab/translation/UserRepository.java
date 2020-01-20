@@ -1,18 +1,20 @@
 package com.collab.translation;
 
-import com.collab.domain.models.OtherUser;
 import com.collab.domain.models.CurrentUser;
 import com.collab.domain.models.NewUser;
+import com.collab.domain.models.OtherUser;
 import com.collab.translation.models.UserEntity;
 import com.collab.translation.models.Validation;
 import com.collab.translation.models.Validations;
 import io.vavr.control.Either;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.collab.translation.Converter.toCurrentUser;
 import static com.collab.translation.Converter.toEntity;
@@ -40,4 +42,9 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
         return findAllExcept(exclude, pageable)
                 .map(Converter::toOtherUser);
     }
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE UserEntity u SET u.status = :status WHERE u.id = :id")
+    void updateUsersStatus(@Param("id") String userId, @Param("status") String status);
 }

@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class CurrentUser {
     private final String name;
-    private UserStatus status;
+    private Status status;
     private final String id;
 
-    public CurrentUser(String id, String name, UserStatus status) {
+    public CurrentUser(String id, String name, Status status) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -21,7 +21,7 @@ public class CurrentUser {
         return id;
     }
 
-    public UserStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

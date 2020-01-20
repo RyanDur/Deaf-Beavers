@@ -1,6 +1,7 @@
 package com.collab.integration;
 
 import com.collab.domain.models.UserStatus;
+import com.collab.domain.models.Status;
 import com.collab.translation.models.CurrentUserResource;
 import com.collab.translation.models.NewUserInput;
 import io.vavr.Tuple2;
@@ -69,7 +70,7 @@ class UsersTest {
 
     @Test
     void shouldCreateAUser() {
-        CurrentUserResource expected = new CurrentUserResource("some id", userName, UserStatus.AVAILABLE);
+        CurrentUserResource expected = new CurrentUserResource(currentUser, userName, Status.AVAILABLE);
 
         assertThat(currentUserResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(currentUserResponse.getHeaders().get("Location")).isEqualTo(singletonList("/users/" + currentUser));
@@ -105,6 +106,23 @@ class UsersTest {
 
         Integer actualNumber = read(response.getBody(), "$.number");
         assertThat(actualNumber).isEqualTo(number);
+    }
+
+    @Test
+    void shouldLogoutAUser() {
+        String actual = restTemplate.patchForObject(
+                uri("/users/" + currentUser),
+               new UserStatus(Status.LOGGED_OUT), String.class);
+
+        assertThat(actual).isEqualTo(null);
+
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                uri("/users" + params(of("exclude", 123), of("page", 0), of("size", 2))),
+                String.class
+        );
+
+        String status = read(response.getBody(), "$.content[0].status");
+        assertThat(status).isEqualTo("LOGGED_OUT");
     }
 
     @NotNull

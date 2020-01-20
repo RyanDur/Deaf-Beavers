@@ -2,18 +2,14 @@ package com.collab.translation;
 
 import com.collab.domain.UserService;
 import com.collab.translation.models.NewUserInput;
+import com.collab.translation.models.UserStatusInput;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.collab.translation.Converter.toCurrentUser;
-import static com.collab.translation.Converter.toResource;
+import static com.collab.translation.Converter.*;
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
@@ -45,5 +41,11 @@ public class UserController {
     public ResponseEntity<?> getAll(@RequestParam String exclude, Pageable pageable) {
         return ResponseEntity.ok(service.getAll(exclude, pageable)
                 .map(Converter::toOtherUserResource));
+    }
+
+    @RequestMapping(path = "/users/{userId}", method = RequestMethod.PATCH)
+    public ResponseEntity<?> update(@PathVariable String userId, @RequestBody UserStatusInput statusInput) {
+        service.update(userId, toUserStatus(statusInput));
+        return ResponseEntity.noContent().build();
     }
 }
