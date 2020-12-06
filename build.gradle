@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = "2.1.9.RELEASE"
+        springBootVersion = "2.4.0"
     }
 
     repositories {
@@ -37,20 +37,22 @@ springBoot {
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "$springBootVersion"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "$springBootVersion"
-    compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.17'
-    compile group: 'io.vavr', name: 'vavr', version: '0.9.3'
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "$springBootVersion"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "$springBootVersion"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: "$springBootVersion"
 
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-spring-service-connector', version: '2.0.6.RELEASE'
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-cloudfoundry-connector', version: '2.0.6.RELEASE'
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.17'
+    implementation group: 'io.vavr', name: 'vavr', version: '0.9.3'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
 
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "$springBootVersion"
-    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.0.0'
-    testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: '1.12.2'
-    testCompile group: 'org.testcontainers', name: 'mysql', version: '1.12.2'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-spring-service-connector', version: '2.0.6.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-cloudfoundry-connector', version: '2.0.6.RELEASE'
+
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "$springBootVersion"
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.0.0'
+    testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: '1.15.0'
+    testImplementation group: 'org.testcontainers', name: 'mysql', version: '1.12.2'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.2'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.2'

@@ -43,7 +43,7 @@ class UserRepositoryTest {
     private Flyway flyway;
 
     @Container
-    private static MySQLContainer container = new MySQLContainer()
+    private static final MySQLContainer container = new MySQLContainer()
             .withDatabaseName("user_db");
 
     private String name;

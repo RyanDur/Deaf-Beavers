@@ -6,7 +6,6 @@ import com.collab.translation.models.CurrentUserResource;
 import com.collab.translation.models.NewUserInput;
 import io.vavr.Tuple2;
 import org.flywaydb.core.Flyway;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +24,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -53,10 +53,10 @@ class UsersTest {
     private Flyway flyway;
 
     @Container
-    private static MySQLContainer container = new MySQLContainer<>()
+    private static final MySQLContainer container = new MySQLContainer<>()
             .withDatabaseName("user");
 
-    private String userName = "Ryan";
+    private final String userName = "Ryan";
     private ResponseEntity<String> currentUserResponse;
     private String currentUser;
 
