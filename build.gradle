@@ -1,27 +1,13 @@
-buildscript {
-    ext {
-        springBootVersion = "2.4.0"
-    }
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: "$springBootVersion"
-    }
-}
-
 plugins {
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
     id 'application'
 }
 
-apply plugin: 'org.springframework.boot'
-
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
@@ -32,24 +18,22 @@ application {
     mainClassName = 'com.collab.Application'
 }
 
-springBoot {
-    mainClassName = 'com.collab.Application'
-}
-
 dependencies {
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "$springBootVersion"
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "$springBootVersion"
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: "$springBootVersion"
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'org.springframework.cloud:spring-cloud-spring-service-connector:2.0.7.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-cloudfoundry-connector:2.0.7.RELEASE'
 
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.17'
     implementation group: 'io.vavr', name: 'vavr', version: '0.9.3'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
 
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-spring-service-connector', version: '2.0.6.RELEASE'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-cloudfoundry-connector', version: '2.0.6.RELEASE'
-
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "$springBootVersion"
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.0.0'
     testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: '1.15.0'
     testImplementation group: 'org.testcontainers', name: 'mysql', version: '1.12.2'
@@ -68,7 +52,7 @@ test {
     afterSuite { desc, result ->
         if (!desc.parent) {
             println '\nTest result: ' + result.resultType
-            println 'Test summary: ' +
+            println 'Test sum«mary: ' +
                     result.testCount + ' tests, ' +
                     result.successfulTestCount + ' succeeded, ' +
                     result.failedTestCount + ' failed, ' +
