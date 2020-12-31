@@ -1,12 +1,13 @@
 package com.collab.domain.models;
 
+import com.collab.translation.models.OtherUserResource;
 import java.util.Objects;
 
 public class OtherUser {
 
     private final String id;
     private final String name;
-    private Status status;
+    private final Status status;
 
     public OtherUser(String id, String name, Status status) {
         this.id = id;
@@ -24,6 +25,10 @@ public class OtherUser {
 
     public Status getStatus() {
         return status;
+    }
+
+    public OtherUserResource toOtherUserResource() {
+        return new OtherUserResource(getId(), getName(), getStatus());
     }
 
     @Override

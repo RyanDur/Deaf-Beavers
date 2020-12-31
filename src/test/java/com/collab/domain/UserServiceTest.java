@@ -28,7 +28,7 @@ class UserServiceTest {
     @Test
     void shouldTakeTheNewUserAndSaveIt() {
         String name = "Ryan";
-        NewUser newUser = new NewUser(name);
+        NewUser newUser = new NewUser(name, "password");
         CurrentUser expected = new CurrentUser("face", name, Status.AVAILABLE);
         when(repository.save(newUser)).thenReturn(right(expected));
 

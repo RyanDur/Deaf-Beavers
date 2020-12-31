@@ -16,8 +16,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.collab.translation.Converter.toCurrentUser;
-import static com.collab.translation.Converter.toEntity;
 import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
 import static java.util.Objects.isNull;
@@ -32,7 +30,7 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
     default Either<Validations, CurrentUser> save(NewUser newUser) {
         return isNull(getByName(newUser.getName())) ?
-                right(toCurrentUser(save(toEntity(newUser)))) :
+                right(save(newUser.toEntity()).toCurrentUser()) :
                 left(Validations.builder()
                         .username(Validation.of(newUser.getName(), "USERNAME_EXISTS"))
                         .build());
@@ -40,7 +38,7 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
     default Page<OtherUser> getAll(String exclude, Pageable pageable) {
         return findAllExcept(exclude, pageable)
-                .map(Converter::toOtherUser);
+                .map(UserEntity::toOtherUser);
     }
 
     @Transactional

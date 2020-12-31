@@ -6,10 +6,9 @@ import java.util.Objects;
 
 public class CurrentUserResource {
 
-    private String id;
-
-    private String name;
-    private Status status;
+    private final String id;
+    private final String name;
+    private final Status status;
 
     public CurrentUserResource(String id, String name, Status status) {
         this.id = id;

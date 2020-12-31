@@ -50,7 +50,7 @@ class UserControllerTest {
     @Test
     void shouldNotAllowANameLongerThanAllowed() throws Exception {
         String tooLongOfAName = String.join("", Collections.nCopies(maxNameLength + 1, "x"));
-        NewUserInput newUser = NewUserInput.builder().name(tooLongOfAName).build();
+        NewUserInput newUser = NewUserInput.builder().name(tooLongOfAName).password("password").build();
         CurrentUser currentUser = new CurrentUser("some id", tooLongOfAName, Status.AVAILABLE);
         when(service.save(any(NewUser.class))).thenReturn(right(currentUser));
 
@@ -65,7 +65,7 @@ class UserControllerTest {
     @Test
     void shouldReturnBadRequestWithValidations() throws Exception {
         String name = "Jordan";
-        NewUserInput newUser = NewUserInput.builder().name(name).build();
+        NewUserInput newUser = NewUserInput.builder().name(name).password("password").build();
         String someValidation = "Some Validation";
         when(service.save(any(NewUser.class))).thenReturn(left(Validations.of(Validation.of(name, someValidation))));
 

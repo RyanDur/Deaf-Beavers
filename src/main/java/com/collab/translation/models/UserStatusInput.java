@@ -1,6 +1,7 @@
 package com.collab.translation.models;
 
 import com.collab.domain.models.Status;
+import com.collab.domain.models.UserStatus;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
 @JsonDeserialize(builder = UserStatusInput.Builder.class)
 public class UserStatusInput {
 
-    private Status status;
+    private final Status status;
 
     private UserStatusInput(Builder builder) {
         status = builder.status;
@@ -17,6 +18,10 @@ public class UserStatusInput {
 
     public Status getStatus() {
         return status;
+    }
+
+    public UserStatus toUserStatus() {
+        return new UserStatus(getStatus());
     }
 
     @Override

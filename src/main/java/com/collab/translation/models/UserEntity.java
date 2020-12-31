@@ -1,10 +1,10 @@
 package com.collab.translation.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import com.collab.domain.models.CurrentUser;
+import com.collab.domain.models.OtherUser;
+import com.collab.domain.models.Status;
+
+import javax.persistence.*;
 
 @Entity
 @Table(
@@ -20,15 +20,19 @@ public class UserEntity {
 
     @Column(unique = true)
     private String name;
+
+    private String password;
+
     private String status;
 
     public UserEntity() {
     }
 
-    public UserEntity(String id, String name, String status) {
+    public UserEntity(String id, String name, Status status, String password) {
         this.id = id;
         this.name = name;
-        this.status = status;
+        this.status = status.name();
+        this.password = password;
     }
 
     public String getId() {
@@ -41,5 +45,17 @@ public class UserEntity {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public CurrentUser toCurrentUser() {
+        return new CurrentUser(getId(), getName(), Status.valueOf(getStatus()));
+    }
+
+    public OtherUser toOtherUser() {
+        return new OtherUser(getId(), getName(), Status.valueOf(getStatus()));
     }
 }

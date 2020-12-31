@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.collab.domain.models.Status.AVAILABLE;
+import static com.collab.domain.models.Status.LOGGED_OUT;
 import static com.jayway.jsonpath.JsonPath.read;
 import static io.vavr.Tuple.of;
 import static java.lang.String.join;
@@ -56,29 +58,31 @@ class UsersTest {
     private static final MySQLContainer container = new MySQLContainer<>()
             .withDatabaseName("user");
 
-    private final String userName = "Ryan";
+    private final String userName = "admin";
+    private final String password = "pass";
     private ResponseEntity<String> currentUserResponse;
-    private String currentUser;
+    private String currentUserId;
 
     @BeforeEach
     void setUp() {
         flyway.clean();
         flyway.migrate();
         currentUserResponse = createUsers(userName).get(0);
-        currentUser = read(currentUserResponse.getBody(), "$.id");
+        currentUserId = read(currentUserResponse.getBody(), "$.id");
     }
 
     @Test
     void shouldCreateAUser() {
-        CurrentUserResource expected = new CurrentUserResource(currentUser, userName, Status.AVAILABLE);
+        CurrentUserResource expected = new CurrentUserResource(currentUserId, userName, AVAILABLE);
 
         assertThat(currentUserResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(currentUserResponse.getHeaders().get("Location")).isEqualTo(singletonList("/users/" + currentUser));
+        assertThat(currentUserResponse.getHeaders().get("Location")).isEqualTo(singletonList("/users/" + currentUserId));
+
         String name = read(currentUserResponse.getBody(), "$.name");
-        String status = read(currentUserResponse.getBody(), "$.status");
+        Status status = Status.valueOf(read(currentUserResponse.getBody(), "$.status"));
 
         assertThat(name).isEqualTo(expected.getName());
-        assertThat(status).isEqualTo(expected.getStatus().name());
+        assertThat(status).isEqualTo(expected.getStatus());
     }
 
     @Test
@@ -88,10 +92,12 @@ class UsersTest {
         int size = 2;
         int number = 0;
 
-        ResponseEntity<String> response = restTemplate.getForEntity(
-                uri("/users" + params(of("exclude", currentUser), of("page", number), of("size", size))),
-                String.class
-        );
+        ResponseEntity<String> response = restTemplate
+                .withBasicAuth(userName, password)
+                .getForEntity(
+                        uri("/users" + params(of("exclude", currentUserId), of("page", number), of("size", size))),
+                        String.class
+                );
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -110,19 +116,24 @@ class UsersTest {
 
     @Test
     void shouldLogoutAUser() {
-        String actual = restTemplate.patchForObject(
-                uri("/users/" + currentUser),
-               new UserStatus(Status.LOGGED_OUT), String.class);
+        String actual = restTemplate
+                .withBasicAuth(userName, password)
+                .patchForObject(
+                        uri("/users/" + currentUserId),
+                        new UserStatus(LOGGED_OUT), String.class
+                );
 
         assertThat(actual).isEqualTo(null);
 
-        ResponseEntity<String> response = restTemplate.getForEntity(
-                uri("/users" + params(of("exclude", 123), of("page", 0), of("size", 2))),
-                String.class
-        );
+        ResponseEntity<String> response = restTemplate
+                .withBasicAuth(userName, password)
+                .getForEntity(
+                        uri("/users" + params(of("exclude", 123), of("page", 0), of("size", 2))),
+                        String.class
+                );
 
-        String status = read(response.getBody(), "$.content[0].status");
-        assertThat(status).isEqualTo("LOGGED_OUT");
+        Status status = Status.valueOf(read(response.getBody(), "$.content[0].status"));
+        assertThat(status).isEqualTo(LOGGED_OUT);
     }
 
     @NotNull
@@ -133,8 +144,11 @@ class UsersTest {
     }
 
     private List<ResponseEntity<String>> createUsers(String... users) {
-        return stream(users).map(user -> restTemplate.postForEntity(uri("/users"),
-                NewUserInput.builder().name(user).build(), String.class)).collect(toList());
+        return stream(users).map(user -> restTemplate.postForEntity(
+                uri("/users"),
+                NewUserInput.builder().name(user).password(password).build(),
+                String.class
+        )).collect(toList());
     }
 
     private String uri(String path) {

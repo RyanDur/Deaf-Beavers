@@ -55,7 +55,7 @@ class UserRepositoryTest {
         flyway.clean();
         flyway.migrate();
         name = "Face";
-        newUser = new NewUser(name);
+        newUser = new NewUser(name, "pass0");
         savedUser = repository.save(newUser);
     }
 
@@ -74,8 +74,8 @@ class UserRepositoryTest {
 
     @Test
     void shouldGetAllTheUsersExceptTheOneSpecified() {
-        final NewUser tony = new NewUser("Tony");
-        final NewUser simon = new NewUser("Simon");
+        final NewUser tony = new NewUser("Tony", "pass1");
+        final NewUser simon = new NewUser("Simon", "pass2");
         repository.save(tony);
         repository.save(simon);
 
